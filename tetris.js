@@ -21,7 +21,7 @@ function drawPiece(piece, offset) {
     x.forEach((value, x) => {
       if (value !== 0) {
         context.fillStyle = 'red';
-        context.fillRect(x, y, 1, 1);
+        context.fillRect(x + offset.x, y + offset.y, 1, 1);
       }
     });
   });
@@ -50,5 +50,16 @@ const pieceInfo = {
   pos: { x: 5, y: 5 },
   piece: piece,
 };
+
+document.addEventListener('keydown', evt => {
+  if (evt.key === 'ArrowLeft') {
+    pieceInfo.pos.x--;
+  } else if (evt.key === 'ArrowRight') {
+    pieceInfo.pos.x++;
+  } else if (evt.key === 'ArrowDown') {
+    pieceInfo.pos.y++;
+    dropCounter = 0;
+  }
+});
 
 update();
