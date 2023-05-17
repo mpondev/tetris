@@ -33,6 +33,7 @@ function draw() {
   context.fillStyle = '#000';
   context.fillRect(0, 0, canvas.width, canvas.height);
 
+  drawPiece(arena, { x: 0, y: 0 });
   drawPiece(pieceInfo.piece, pieceInfo.pos);
 }
 
@@ -67,6 +68,13 @@ function pieceDrop() {
   dropCounter = 0;
 }
 
+function pieceMove(dir) {
+  pieceInfo.pos.x += dir;
+  if (collide(arena, pieceInfo)) {
+    pieceInfo.pos.x -= dir;
+  }
+}
+
 let dropCounter = 0;
 let dropInterval = 1000;
 
@@ -94,9 +102,9 @@ const pieceInfo = {
 
 document.addEventListener('keydown', evt => {
   if (evt.key === 'ArrowLeft') {
-    pieceInfo.pos.x--;
+    pieceMove(-1);
   } else if (evt.key === 'ArrowRight') {
-    pieceInfo.pos.x++;
+    pieceMove(1);
   } else if (evt.key === 'ArrowDown') {
     pieceDrop();
   }
