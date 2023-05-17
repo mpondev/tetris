@@ -9,6 +9,26 @@ const piece = [
   [0, 1, 0],
 ];
 
+function collide(arena, pieceInfo) {
+  const [m, p] = [pieceInfo.piece, pieceInfo.pos];
+  for (let y = 0; y < m.length; y++) {
+    for (let x = 0; x < m[y].length; x++) {
+      if (m[y][x] !== 0 && (arena[y + p.y] && arena[y + p.y][x + p.x]) !== 0) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function createPiece(w, h) {
+  const piece = [];
+  while (h--) {
+    piece.push(new Array(w).fill(0));
+  }
+  return piece;
+}
+
 function draw() {
   context.fillStyle = '#000';
   context.fillRect(0, 0, canvas.width, canvas.height);
@@ -27,8 +47,23 @@ function drawPiece(piece, offset) {
   });
 }
 
+function merge(arena, pieceInfo) {
+  pieceInfo.piece.forEach((x, y) => {
+    x.forEach((value, x) => {
+      if (value !== 0) {
+        arena[y + pieceInfo.pos.y][x + pieceInfo.pos.x] = value;
+      }
+    });
+  });
+}
+
 function pieceDrop() {
   pieceInfo.pos.y++;
+  if (collide(arena, pieceInfo)) {
+    pieceInfo.pos.y--;
+    merge(arena, pieceInfo);
+    pieceInfo.pos.y = 0;
+  }
   dropCounter = 0;
 }
 
@@ -49,6 +84,8 @@ function update(time = 0) {
   draw();
   requestAnimationFrame(update);
 }
+
+const arena = createPiece(12, 20);
 
 const pieceInfo = {
   pos: { x: 5, y: 5 },
