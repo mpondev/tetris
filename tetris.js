@@ -12,11 +12,15 @@ const piece = [
   [0, 1, 0],
 ];
 
-piece.forEach((x, y) => {
-  x.forEach((value, x) => {
-    if (value !== 0) {
-      context.fillStyle = 'red';
-      context.fillRect(x, y, 1, 1);
-    }
+function drawPiece(piece, offset) {
+  piece.forEach((x, y) => {
+    x.forEach((value, x) => {
+      if (value !== 0) {
+        context.fillStyle = 'red';
+        context.fillRect(x, y, 1, 1);
+      }
+    });
   });
-});
+}
+
+drawPiece(piece, { x: 5, y: 5 });
