@@ -3,12 +3,6 @@ const context = canvas.getContext('2d');
 
 context.scale(20, 20);
 
-const piece = [
-  [0, 0, 0],
-  [1, 1, 1],
-  [0, 1, 0],
-];
-
 function collide(arena, pieceInfo) {
   const [m, p] = [pieceInfo.piece, pieceInfo.pos];
   for (let y = 0; y < m.length; y++) {
@@ -27,6 +21,52 @@ function createPiece(w, h) {
     piece.push(new Array(w).fill(0));
   }
   return piece;
+}
+
+function createPieces(type) {
+  if (type === 'T') {
+    return [
+      [0, 0, 0],
+      [1, 1, 1],
+      [0, 1, 0],
+    ];
+  } else if (type === 'O') {
+    return [
+      [1, 1],
+      [1, 1],
+    ];
+  } else if (type === 'L') {
+    return [
+      [0, 1, 0],
+      [0, 1, 0],
+      [0, 1, 1],
+    ];
+  } else if (type === 'J') {
+    return [
+      [0, 1, 0],
+      [0, 1, 0],
+      [1, 1, 0],
+    ];
+  } else if (type === 'I') {
+    return [
+      [0, 1, 0, 0],
+      [0, 1, 0, 0],
+      [0, 1, 0, 0],
+      [0, 1, 0, 0],
+    ];
+  } else if (type === 'S') {
+    return [
+      [0, 1, 1],
+      [1, 1, 0],
+      [0, 0, 0],
+    ];
+  } else if (type === 'Z') {
+    return [
+      [1, 1, 0],
+      [0, 1, 1],
+      [0, 0, 0],
+    ];
+  }
 }
 
 function draw() {
@@ -63,7 +103,7 @@ function pieceDrop() {
   if (collide(arena, pieceInfo)) {
     pieceInfo.pos.y--;
     merge(arena, pieceInfo);
-    pieceInfo.pos.y = 0;
+    pieceReset();
   }
   dropCounter = 0;
 }
@@ -73,6 +113,14 @@ function pieceMove(dir) {
   if (collide(arena, pieceInfo)) {
     pieceInfo.pos.x -= dir;
   }
+}
+
+function pieceReset() {
+  const pieces = 'ILJOTSZ';
+  pieceInfo.piece = createPieces(pieces[(pieces.length * Math.random()) | 0]);
+  pieceInfo.pos.y = 0;
+  pieceInfo.pos.x =
+    ((arena[0].length / 2) | 0) - ((pieceInfo.piece[0].length / 2) | 0);
 }
 
 function pieceRotate(dir) {
@@ -125,7 +173,7 @@ const arena = createPiece(12, 20);
 
 const pieceInfo = {
   pos: { x: 5, y: 5 },
-  piece: piece,
+  piece: createPieces('T'),
 };
 
 document.addEventListener('keydown', evt => {
