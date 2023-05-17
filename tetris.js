@@ -75,6 +75,34 @@ function pieceMove(dir) {
   }
 }
 
+function pieceRotate(dir) {
+  const pos = pieceInfo.pos.x;
+  let offset = 1;
+  rotate(pieceInfo.piece, dir);
+  while (collide(arena, pieceInfo)) {
+    pieceInfo.pos.x += offset;
+    offset = -(offset + (offset > 0 ? 1 : -1));
+    if (offset > pieceInfo.piece[0].length) {
+      rotate(pieceInfo.piece, -dir);
+      pieceInfo.pos.x = pos;
+      return;
+    }
+  }
+}
+
+function rotate(piece, dir) {
+  for (let y = 0; y < piece.length; y++) {
+    for (let x = 0; x < y; x++) {
+      [piece[x][y], piece[y][x]] = [piece[y][x], piece[x][y]];
+    }
+  }
+  if (dir > 0) {
+    piece.forEach(row => row.reverse());
+  } else {
+    piece.reverse();
+  }
+}
+
 let dropCounter = 0;
 let dropInterval = 1000;
 
@@ -107,6 +135,10 @@ document.addEventListener('keydown', evt => {
     pieceMove(1);
   } else if (evt.key === 'ArrowDown') {
     pieceDrop();
+  } else if (evt.key === 'q') {
+    pieceRotate(-1);
+  } else if (evt.key === 'w') {
+    pieceRotate(1);
   }
 });
 
