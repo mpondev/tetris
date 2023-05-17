@@ -3,14 +3,18 @@ const context = canvas.getContext('2d');
 
 context.scale(20, 20);
 
-context.fillStyle = '#000';
-context.fillRect(0, 0, canvas.width, canvas.height);
-
 const piece = [
   [0, 0, 0],
   [1, 1, 1],
   [0, 1, 0],
 ];
+
+function draw() {
+  context.fillStyle = '#000';
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  drawPiece(pieceInfo.piece, pieceInfo.pos);
+}
 
 function drawPiece(piece, offset) {
   piece.forEach((x, y) => {
@@ -23,4 +27,18 @@ function drawPiece(piece, offset) {
   });
 }
 
-drawPiece(piece, { x: 5, y: 5 });
+let lastTime = 0;
+
+function update(time = 0) {
+  const deltaTime = time - lastTime;
+  lastTime = time;
+  draw();
+  requestAnimationFrame(update);
+}
+
+const pieceInfo = {
+  pos: { x: 5, y: 5 },
+  piece: piece,
+};
+
+update();
