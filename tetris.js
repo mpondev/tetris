@@ -27,6 +27,11 @@ function drawPiece(piece, offset) {
   });
 }
 
+function pieceDrop() {
+  pieceInfo.pos.y++;
+  dropCounter = 0;
+}
+
 let dropCounter = 0;
 let dropInterval = 1000;
 
@@ -38,8 +43,7 @@ function update(time = 0) {
 
   dropCounter += deltaTime;
   if (dropCounter > dropInterval) {
-    pieceInfo.pos.y++;
-    dropCounter = 0;
+    pieceDrop();
   }
 
   draw();
@@ -57,8 +61,7 @@ document.addEventListener('keydown', evt => {
   } else if (evt.key === 'ArrowRight') {
     pieceInfo.pos.x++;
   } else if (evt.key === 'ArrowDown') {
-    pieceInfo.pos.y++;
-    dropCounter = 0;
+    pieceDrop();
   }
 });
 
