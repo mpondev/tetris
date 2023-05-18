@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const startBtn = document.querySelector('#start-btn');
   const width = 10;
   let nextRandom = 0;
+  let timerId;
 
   // The Pieces
   const jPiece = [
@@ -80,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Make the pieces move down every second
-  timerId = setInterval(moveDown, 1000);
+  // timerId = setInterval(moveDown, 1000);
 
   // Assign codes to key-press
   function control(evt) {
@@ -184,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const displayWidth = 4;
   let displayIndex = 0;
 
-  //// The pieces without the rotation
+  // the pieces without the rotation
   const upNextPiece = [
     [1, displayWidth + 1, displayWidth * 2 + 1, 2], // jPiece
     [0, 1, displayWidth + 1, displayWidth * 2 + 1], // lPiece
@@ -194,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
     [0, 1, displayWidth, displayWidth + 1], // oPiece
     [1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1], // iPiece
   ];
-  //// Display the shape in the mini-grid display
+  // display the shape in the mini-grid display
   function displayShape() {
     // remove any trace of a piece from the entire mini-grid
     displaySquares.forEach(square => {
@@ -204,4 +205,17 @@ document.addEventListener('DOMContentLoaded', () => {
       displaySquares[displayIndex + index].classList.add('piece');
     });
   }
+
+  // Add functionality to the Start button
+  startBtn.addEventListener('click', () => {
+    if (timerId) {
+      clearInterval(timerId);
+      timerId = null;
+    } else {
+      draw();
+      timerId = setInterval(moveDown, 1000);
+      nextRandom = Math.floor(Math.random() * thePieces.length);
+      displayShape();
+    }
+  });
 });
