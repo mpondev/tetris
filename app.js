@@ -89,6 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
       moveRight();
     } else if (evt.key === 'ArrowDown') {
       moveDown();
+    } else if (evt.key === 'ArrowUp') {
+      rotate();
     }
   }
   document.addEventListener('keydown', control);
@@ -160,6 +162,17 @@ document.addEventListener('DOMContentLoaded', () => {
       currentPosition -= 1;
     }
 
+    draw();
+  }
+
+  // Rotate pieces
+  function rotate() {
+    undraw();
+    currentRotation++;
+    if (currentRotation === current.length) {
+      currentRotation = 0;
+    }
+    current = thePieces[random][currentRotation];
     draw();
   }
 });
