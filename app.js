@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let nextRandom = 0;
   let timerId;
   let score = 0;
+  const colors = ['orange', 'red', 'purple', 'green', 'blue', 'pink', 'yellow'];
 
   // The Pieces
   const jPiece = [
@@ -71,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function draw() {
     current.forEach(index => {
       squares[currentPosition + index].classList.add('piece');
+      squares[currentPosition + index].style.backgroundColor = colors[random];
     });
   }
 
@@ -78,11 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function undraw() {
     current.forEach(index => {
       squares[currentPosition + index].classList.remove('piece');
+      squares[currentPosition + index].style.backgroundColor = '';
     });
   }
-
-  // Make the pieces move down every second
-  // timerId = setInterval(moveDown, 1000);
 
   // Assign codes to key-press
   function control(evt) {
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Show up next piece in mini-grid display
   const displaySquares = document.querySelectorAll('.mini-grid div');
   const displayWidth = 4;
-  let displayIndex = 0;
+  const displayIndex = 0;
 
   // the pieces without the rotation
   const upNextPiece = [
@@ -203,9 +203,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // remove any trace of a piece from the entire mini-grid
     displaySquares.forEach(square => {
       square.classList.remove('piece');
+      square.style.backgroundColor = '';
     });
     upNextPiece[nextRandom].forEach(index => {
       displaySquares[displayIndex + index].classList.add('piece');
+      displaySquares[displayIndex + index].style.backgroundColor =
+        colors[nextRandom];
     });
   }
 
@@ -244,6 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
         row.forEach(index => {
           squares[index].classList.remove('taken');
           squares[index].classList.remove('piece');
+          squares[index].style.backgroundColor = '';
         });
         const squaresRemoved = squares.splice(i, width);
         squares = squaresRemoved.concat(squares);
