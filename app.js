@@ -56,4 +56,25 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const thePieces = [jPiece, lPiece, sPiece, zPiece, tPiece, oPiece, iPiece];
+
+  let currentPosition = 4;
+  let currentRotation = 0;
+
+  // Randomly select a piece and its first rotation
+  let random = Math.floor(Math.random() * thePieces.length);
+  let current = thePieces[random][currentRotation];
+
+  // Draw the piece
+  function draw() {
+    current.forEach(index => {
+      squares[currentPosition + index].classList.add('piece');
+    });
+  }
+
+  // Undraw the piece
+  function undraw() {
+    current.forEach(index => {
+      squares[currentPosition + index].classList.remove('piece');
+    });
+  }
 });
