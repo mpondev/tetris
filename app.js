@@ -81,6 +81,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // Make the pieces move down every second
   timerId = setInterval(moveDown, 1000);
 
+  // Assign codes to key-press
+  function control(evt) {
+    if (evt.key === 'ArrowLeft') {
+      moveLeft();
+    } else if (evt.key === 'ArrowRight') {
+      moveRight();
+    } else if (evt.key === 'ArrowDown') {
+      moveDown();
+    }
+  }
+  document.addEventListener('keydown', control);
+
   // Move down function
   function moveDown() {
     undraw();
@@ -105,5 +117,49 @@ document.addEventListener('DOMContentLoaded', () => {
       currentPosition = 4;
       draw();
     }
+  }
+
+  // Move pieces left unless is at the edge or there is a blockage
+  function moveLeft() {
+    undraw();
+    const isAtLeftEdge = current.some(
+      index => (currentPosition + index) % width === 0
+    );
+
+    if (!isAtLeftEdge) {
+      currentPosition -= 1;
+    }
+
+    if (
+      current.some(index =>
+        squares[currentPosition + index].classList.contains('taken')
+      )
+    ) {
+      currentPosition += 1;
+    }
+
+    draw();
+  }
+
+  // Move pieces right unless is at the edge or there is a blockage
+  function moveRight() {
+    undraw();
+    const isAtRightEdge = current.some(
+      index => (currentPosition + index) % width === width - 1
+    );
+
+    if (!isAtRightEdge) {
+      currentPosition += 1;
+    }
+
+    if (
+      current.some(index =>
+        squares[currentPosition + index].classList.contains('taken')
+      )
+    ) {
+      currentPosition -= 1;
+    }
+
+    draw();
   }
 });
