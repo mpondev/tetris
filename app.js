@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const scoreDisplay = document.querySelector('#score');
   const startBtn = document.querySelector('#start-btn');
   const width = 10;
+  let nextRandom = 0;
 
   // The Pieces
   const jPiece = [
@@ -114,10 +115,12 @@ document.addEventListener('DOMContentLoaded', () => {
         squares[currentPosition + index].classList.add('taken')
       );
       // Start a new piece falling
-      random = Math.floor(Math.random() * thePieces.length);
+      random = nextRandom;
+      nextRandom = Math.floor(Math.random() * thePieces.length);
       current = thePieces[random][currentRotation];
       currentPosition = 4;
       draw();
+      displayShape();
     }
   }
 
@@ -174,5 +177,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     current = thePieces[random][currentRotation];
     draw();
+  }
+
+  // Show up next piece in mini-grid display
+  const displaySquares = document.querySelectorAll('.mini-grid div');
+  const displayWidth = 4;
+  let displayIndex = 0;
+
+  //// The pieces without the rotation
+  const upNextPiece = [
+    [1, displayWidth + 1, displayWidth * 2 + 1, 2], // jPiece
+    [0, 1, displayWidth + 1, displayWidth * 2 + 1], // lPiece
+    [0, displayWidth, displayWidth + 1, displayWidth * 2 + 1], // sPiece
+    [1, displayWidth + 1, displayWidth, displayWidth * 2], // zPiece
+    [1, displayWidth, displayWidth + 1, displayWidth + 2], // tPiece
+    [0, 1, displayWidth, displayWidth + 1], // oPiece
+    [1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1], // iPiece
+  ];
+  //// Display the shape in the mini-grid display
+  function displayShape() {
+    // remove any trace of a piece from the entire mini-grid
+    displaySquares.forEach(square => {
+      square.classList.remove('piece');
+    });
+    upNextPiece[nextRandom].forEach(index => {
+      displaySquares[displayIndex + index].classList.add('piece');
+    });
   }
 });
