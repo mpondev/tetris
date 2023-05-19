@@ -83,4 +83,6 @@ export function transferToBoard({
       }
     });
   });
+
+  return rows;
 }

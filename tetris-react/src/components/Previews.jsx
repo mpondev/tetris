@@ -7,9 +7,9 @@ function Previews({ pieces }) {
 
   return (
     <>
-      {previewPieces.map((piece, index) => {
-        <Preview piece={piece} index={index} key={index} />;
-      })}
+      {previewPieces.map((piece, index) => (
+        <Preview piece={piece} index={index} key={index} />
+      ))}
     </>
   );
 }

@@ -10,9 +10,7 @@ function buildPlayer(previous) {
   } else {
     pieces = Array(5)
       .fill(0)
-      .map(_ => {
-        randomPiece();
-      });
+      .map(_ => randomPiece());
   }
 
   return {

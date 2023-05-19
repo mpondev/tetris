@@ -1,7 +1,7 @@
-import './Preview.css';
 import { buildBoard } from '../utils/board';
 import { transferToBoard } from '../utils/pieces';
 import BoardCell from './BoardCell';
+import './Preview.css';
 
 function Preview({ piece, index }) {
   const { shape, className } = piece;
@@ -21,11 +21,11 @@ function Preview({ piece, index }) {
   return (
     <div className="preview" style={style}>
       <div className="preview-board">
-        {board.rows.map((row, y) => {
+        {board.rows.map((row, y) =>
           row.map((cell, x) => (
             <BoardCell key={x * board.size.columns + x} cell={cell} />
-          ));
-        })}
+          ))
+        )}
       </div>
     </div>
   );
