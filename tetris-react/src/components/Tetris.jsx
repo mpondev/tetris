@@ -7,9 +7,15 @@ import Previews from './Previews';
 import './Tetris.css';
 
 function Tetris({ rows, columns, setGameOver }) {
-  const [board, setBoard] = useBoard({ rows, columns });
   const [gameStats, addLinesCleared] = useGameStats();
   const [player, setPlayer, resetPlayer] = usePlayer();
+  const [board, setBoard] = useBoard({
+    rows,
+    columns,
+    player,
+    resetPlayer,
+    addLinesCleared,
+  });
 
   return (
     <div className="tetris">

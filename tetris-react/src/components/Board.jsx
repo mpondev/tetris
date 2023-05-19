@@ -9,11 +9,11 @@ function Board({ board }) {
 
   return (
     <div className="board" style={boardStyles}>
-      {board.rows.map((row, y) => {
-        row.map((cell, x) => {
-          <BoardCell key={x * board.size.columns + x} cell={cell} />;
-        });
-      })}
+      {board.rows.map((row, y) =>
+        row.map((cell, x) => (
+          <BoardCell key={x * board.size.columns + x} cell={cell} />
+        ))
+      )}
     </div>
   );
 }
