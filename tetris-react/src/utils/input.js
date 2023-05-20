@@ -18,4 +18,8 @@ export const Key = {
   Space: Action.FastDrop,
 };
 
+export function actionIsDrop(action) {
+  return [Action.SlowDrop, Action.FastDrop].includes(action);
+}
+
 export const actionForKey = keyCode => Key[keyCode];
