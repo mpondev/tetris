@@ -1,4 +1,5 @@
 import { Action, actionForKey } from '../utils/input';
+import { playerController } from '../utils/playerController';
 import './GameController.css';
 
 function GameController({ board, gameStats, player, setGameOver, setPlayer }) {
@@ -10,7 +11,18 @@ function GameController({ board, gameStats, player, setGameOver, setPlayer }) {
   }
 
   function onKeyDown({ code }) {
-    console.log(`onKeyDown ${code}`);
+    const action = actionForKey(code);
+    handleInput({ action });
+  }
+
+  function handleInput({ action }) {
+    playerController({
+      action,
+      board,
+      player,
+      setPlayer,
+      setGameOver,
+    });
   }
 
   return (
