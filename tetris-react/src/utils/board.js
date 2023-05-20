@@ -29,6 +29,11 @@ export function nextBoard({ board, player, resetPlayer, addLinesCleared }) {
     shape: piece.shape,
   });
 
+  // If we collided, reset the player!
+  if (player.collided || player.isFastDropping) {
+    resetPlayer();
+  }
+
   // Return the next board
   return {
     rows,
@@ -63,7 +68,7 @@ export function isWithinBoard({ board, position, shape }) {
     const row = y + position.row;
 
     for (let x = 0; x < shape[y].length; x++) {
-      if (shape[x][y]) {
+      if (shape[y][x]) {
         const column = x + position.column;
         const isValidPosition = board.rows[row] && board.rows[row][column];
 
