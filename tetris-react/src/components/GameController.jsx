@@ -1,3 +1,4 @@
+import { useInterval } from '../hooks/useInterval';
 import { Action, actionForKey } from '../utils/input';
 import { playerController } from '../utils/playerController';
 import './GameController.css';
