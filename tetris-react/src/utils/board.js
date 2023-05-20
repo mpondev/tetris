@@ -1,4 +1,5 @@
 import { defaultCell } from './cell';
+import { movePlayer } from './playerController';
 import { transferToBoard } from './pieces';
 
 export function buildBoard({ rows, columns }) {
@@ -12,6 +13,25 @@ export function buildBoard({ rows, columns }) {
   };
 }
 
+function findDropPosition({ board, position, shape }) {
+  let max = board.size.rows - position.row + 1;
+  let row = 0;
+
+  for (let i = 0; i < max; i++) {
+    const delta = { row: i, column: 0 };
+    const result = movePlayer({ delta, position, shape, board });
+    const { collided } = result;
+
+    if (collided) {
+      break;
+    }
+
+    row = position.row + i;
+  }
+
+  return { ...position, row };
+}
+
 export function nextBoard({ board, player, resetPlayer, addLinesCleared }) {
   const { piece, position } = player;
 
@@ -20,6 +40,37 @@ export function nextBoard({ board, player, resetPlayer, addLinesCleared }) {
   let rows = board.rows.map(row =>
     row.map(cell => (cell.occupied ? cell : { ...defaultCell }))
   );
+
+  // Drop position
+  const dropPosition = findDropPosition({
+    board,
+    position,
+    shape: piece.shape,
+  });
+
+  // Place ghost
+  const className = `${piece.className} ${
+    player.isFastDropping ? '' : 'ghost'
+  }`;
+  rows = transferToBoard({
+    className,
+    isOccupied: player.isFastDropping,
+    position: dropPosition,
+    rows,
+    shape: piece.shape,
+  });
+
+  // Place the piece
+  // If it collided, mark the board cells as collided
+  if (!player.isFastDropping) {
+    rows = transferToBoard({
+      className: piece.className,
+      isOccupied: player.collided,
+      position,
+      rows,
+      shape: piece.shape,
+    });
+  }
 
   rows = transferToBoard({
     className: piece.className,

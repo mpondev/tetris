@@ -26,7 +26,7 @@ function attemptRotation({ board, player, setPlayer }) {
   }
 }
 
-function movePlayer({ delta, position, shape, board }) {
+export function movePlayer({ delta, position, shape, board }) {
   const desiredNextPosition = {
     row: position.row + delta.row,
     column: position.column + delta.column,
